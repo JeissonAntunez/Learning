@@ -1,11 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Test de Performance</title>
 </head>
 <body>
-    Avanzar para progresar la tecnologia avanza cada vez mas rapido
+    <h1>Comparación de Factorial</h1>
+    <button id="btnFor">Ejecutar FOR</button>
+    <button id="btnRecursion">Ejecutar RECURSIÓN</button>
+    <button id="btnAmbos">Ejecutar AMBOS</button>
+    <div id="resultados"></div>
+
+    <script>
+        // FOR
+        function factorialFor(n) {
+            let resultado = 1;
+            for (let i = 1; i <= n; i++) {
+                resultado *= i;
+            }
+            return resultado;
+        }
+
+        // RECURSIÓN
+        function factorialRecursivo(n) {
+            if (n === 0) return 1;
+            return n * factorialRecursivo(n - 1);
+        }
+
+        // Botón FOR
+        document.getElementById('btnFor').addEventListener('click', () => {
+            console.log('🔵 Ejecutando FOR...');
+            console.time('FOR');
+            
+            const resultado = factorialFor(5000);
+            
+            console.timeEnd('FOR');
+            console.log('Resultado:', resultado.toString().substring(0, 50) + '...');
+        });
+
+        // Botón RECURSIÓN
+        document.getElementById('btnRecursion').addEventListener('click', () => {
+            console.log('🟢 Ejecutando RECURSIÓN...');
+            console.time('RECURSIÓN');
+            
+            try {
+                const resultado = factorialRecursivo(5000);
+                console.timeEnd('RECURSIÓN');
+                console.log('Resultado:', resultado.toString().substring(0, 50) + '...');
+            } catch (error) {
+                console.timeEnd('RECURSIÓN');
+                console.error('❌ ERROR:', error.message);
+            }
+        });
+
+        // Botón AMBOS
+        document.getElementById('btnAmbos').addEventListener('click', () => {
+            console.log('📊 COMPARACIÓN COMPLETA:\n');
+            
+            // FOR
+            console.log('🔵 FOR:');
+            let inicio = performance.now();
+            factorialFor(3000);
+            let fin = performance.now();
+            console.log(`Tiempo: ${(fin - inicio).toFixed(4)} ms\n`);
+            
+            // RECURSIÓN
+            console.log('🟢 RECURSIÓN:');
+            inicio = performance.now();
+            try {
+                factorialRecursivo(3000);
+                fin = performance.now();
+                console.log(`Tiempo: ${(fin - inicio).toFixed(4)} ms`);
+            } catch (error) {
+                console.error('ERROR:', error.message);
+            }
+        });
+    </script>
 </body>
-</html>l
+</html>
